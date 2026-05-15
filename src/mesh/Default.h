@@ -26,9 +26,9 @@
 #define default_min_wake_secs 10
 #define default_screen_on_secs IF_ROUTER(1, 60 * 10)
 #define default_node_info_broadcast_secs 3 * 60 * 60
-#define default_neighbor_info_broadcast_secs 6 * 60 * 60
+#define default_neighbor_info_broadcast_secs 5 * 60
 #define min_node_info_broadcast_secs 60 * 60 // No regular broadcasts of more than once an hour
-#define min_neighbor_info_broadcast_secs 4 * 60 * 60
+#define min_neighbor_info_broadcast_secs 60
 #define default_map_publish_interval_secs 60 * 60
 
 // Traffic management defaults
