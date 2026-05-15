@@ -1,3 +1,6 @@
+#ignore finished builds
+/dist/
+
 .pio
 pio
 pio.tar
