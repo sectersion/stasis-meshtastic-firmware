@@ -17,26 +17,47 @@ rm -rf .pio
 # Create dist directory
 mkdir -p dist
 
-# Extract valid PlatformIO environment names from [env:xxx] section headers
-BOARD_IDS=()
-while IFS= read -r line; do
-    [[ -z "$line" ]] && continue
-    BOARD_IDS+=("$line")
-done < <(find variants/ -name platformio.ini -exec grep -oP '(?<=\[env:)\w[\w-]*' {} \; | sort -u)
+# Default board list
+TOP_BOARDS=(
+    "heltec-v3"
+    "heltec-wifi-lora-v3"
+    "tlora-t3s3"
+    "tbeam-s3-core"
+    "heltec-wireless-tracker"
+    "heltec-v3-tft"
+    "station-g2"
+    "nano-g2-ultra"
+    "tbeam"
+    "tbeam-v07"
+    "heltec-v2-1"
+    "tlora-v2-1-16"
+    "tlora-v2"
+    "tlora-v1"
+    "lora-relay-v1"
+    "rak4631"
+    "clue-nrf52840"
+    "rak11200"
+    "rak11310"
+    "t-deck"
+    "t-echo"
+    "t-watch-s3"
+    "m5stack-core2"
+    "heltec-v4"
+    "picow-periphery-v1"
+    "canaryone"
+)
 
-# Filter to target board if specified, otherwise take top 10
+# Filter to target board if specified
 if [[ -n "$TARGET_BOARD" ]]; then
     TOP_BOARDS=("$TARGET_BOARD")
     echo "=== Building single board: $TARGET_BOARD ==="
 else
-    TOP_BOARDS=("${BOARD_IDS[@]:0:10}")
-    echo "=== Building top 10 boards ==="
+    echo "=== Building ${#TOP_BOARDS[@]} boards ==="
 fi
 
 TOTAL=${#TOP_BOARDS[@]}
 BUILT=0
 FAILED=0
-CLEANED=0
 
 # Phase 1: Build
 for board in "${TOP_BOARDS[@]}"; do
@@ -66,6 +87,7 @@ echo ""
 echo ""
 
 # Phase 2: Clean
+CLEANED=0
 for board in "${TOP_BOARDS[@]}"; do
     CLEANED=$((CLEANED + 1))
     pbar=""
