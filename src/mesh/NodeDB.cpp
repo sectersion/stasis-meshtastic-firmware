@@ -1131,7 +1131,16 @@ void NodeDB::installDefaultModuleConfig()
 #endif
 
     moduleConfig.has_neighbor_info = true;
-    moduleConfig.neighbor_info.enabled = false;
+#ifdef USERPREFS_NEIGHBOR_INFO_ENABLED
+    moduleConfig.neighbor_info.enabled = USERPREFS_NEIGHBOR_INFO_ENABLED;
+#else
+    moduleConfig.neighbor_info.enabled = true;
+#endif
+#ifdef USERPREFS_NEIGHBOR_INFO_TRANSMIT_OVER_LORA
+    moduleConfig.neighbor_info.transmit_over_lora = USERPREFS_NEIGHBOR_INFO_TRANSMIT_OVER_LORA;
+#else
+    moduleConfig.neighbor_info.transmit_over_lora = true;
+#endif
 
     moduleConfig.has_detection_sensor = true;
     moduleConfig.detection_sensor.enabled = false;
@@ -1221,7 +1230,11 @@ void NodeDB::initModuleConfigIntervals()
     moduleConfig.telemetry.air_quality_interval = 0;
     moduleConfig.telemetry.power_update_interval = 0;
     moduleConfig.telemetry.health_update_interval = 0;
+#ifdef USERPREFS_NEIGHBOR_INFO_UPDATE_INTERVAL
+    moduleConfig.neighbor_info.update_interval = USERPREFS_NEIGHBOR_INFO_UPDATE_INTERVAL;
+#else
     moduleConfig.neighbor_info.update_interval = 0;
+#endif
     moduleConfig.paxcounter.paxcounter_update_interval = 0;
 }
 
